@@ -36,6 +36,7 @@ class LineChart extends AbstractChart {
     const datas = this.getDatas(data);
     const baseHeight = this.calcBaseHeight(datas, height);
     const getDotColor = this.props.getDotColor || null;
+    const points = []
     data.forEach(dataset => {
       dataset.data.forEach((x, i) => {
         const cx =
@@ -55,6 +56,8 @@ class LineChart extends AbstractChart {
             getColor: opacity => this.getColor(dataset, opacity)
           });
         };
+
+        points.push({cx, cy})
 
         output.push(
           <Circle
@@ -81,6 +84,10 @@ class LineChart extends AbstractChart {
         );
       });
     });
+
+    if (this.props.onSetPoints) {
+      this.props.onSetPoints(points)
+    }
     return output;
   };
 
